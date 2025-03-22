@@ -68,13 +68,13 @@ Key dataset components:
 
 - Labels (ESCI): Relevance judgments:
 
--- E – Exact match
+  - E – Exact match
 
--- S – Substitute
+  - S – Substitute
 
--- C – Complement
+  - C – Complement
 
--- I – Irrelevant
+  - I – Irrelevant
 
 - Embeddings: Precomputed CLIP text and image embeddings for each product.
 
