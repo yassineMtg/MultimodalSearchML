@@ -131,6 +131,8 @@ This project is inspired by two key papers:
 
 ### Baseline Model
 
+**Baseline Model Summary**
+
 | Model Name                             | Developer                                    | Purpose                                      | Performance (NDCG) |
 |----------------------------------------|----------------------------------------------|----------------------------------------------|--------------------|
 | CLIP (ViT-L/14)                        | OpenAI                                       | Multimodal embedding for image-text matching | ~0.82 (SQID paper) |
@@ -151,7 +153,46 @@ This model is:
 
 - Does not require retraining to get useful results (zero-shot setup)
 
+---
 
+## Evaluation Metrics
 
+This project focuses on ranking product search results by relevance to a given user query. Therefore, the most appropriate evaluation metrics are:
+
+### 1. Normalized Discounted Cumulative Gain (NDCG)
+
+- Why?: NDCG measures the quality of a ranked list by rewarding correct items at higher positions.
+
+- How it works:
+
+  - Takes into account the position of relevant items in the list.
+
+  - ESCI labels are mapped to graded relevance scores:
+
+    - E (Exact) = 1.0
+
+    - S (Substitute) = 0.1
+
+    - C (Complement) = 0.01
+
+    - I (Irrelevant) = 0.0
+
+  - Used in: The official SQD and SQID benchmarks.
+
+### 2. Precision @ K (Optional)
+
+- Measures how many of the top-K retrieved products are truly relevant (e.g., Exact or Substitute).
+
+- Useful for evaluating short result lists, like top 5 or top 10.
+
+### 3. Cosine Similarity (Intermediate)
+
+- Not a final metric, but used internally to compare query and product embeddings (via CLIP).
+
+- It’s how we score and rank product candidates before computing NDCG.
+
+These metrics provide a robust framework to evaluate how well the system understands and ranks product relevance based on multimodal inputs.
+
+---
 
 
