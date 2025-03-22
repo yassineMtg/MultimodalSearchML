@@ -129,6 +129,28 @@ This project is inspired by two key papers:
 
   - SQID builds on SQD by enriching it with product images and pretrained embeddings (text and image) using CLIP. It supports multimodal learning and highlights the value of combining text + image for better product ranking.
 
+### Baseline Model
+
+| Model Name                             | Developer                                    | Purpose                                      | Performance (NDCG) |
+|----------------------------------------|----------------------------------------------|----------------------------------------------|--------------------|
+| CLIP (ViT-L/14)                        | OpenAI                                       | Multimodal embedding for image-text matching | ~0.82 (SQID paper) |
+| SBERT (MiniLM-L12-v2)                  | Hugging Face                                 | Text-only semantic similarity model          | ~0.83              |
+| ESCI Baseline (MS MARCO Cross-Encoder) | Amazon                                       | Fine-tuned text-only ranker for SQD          | **0.85+**          |
+
+The baseline model used in this project is CLIP (Contrastive Language-Image Pretraining), specifically the clip-vit-large-patch14 variant, available via Hugging Face.
+
+- It provides joint embeddings for both text (user queries) and images (product photos).
+
+- Embeddings can be compared using cosine similarity to estimate semantic relevance.
+
+This model is:
+
+- Open-source
+
+- Available as a pretrained binary
+
+- Does not require retraining to get useful results (zero-shot setup)
+
 
 
 
