@@ -87,7 +87,7 @@ Dataset stats:
 - Covers US, ES, and JP locales (this project focuses on the US locale)
 
 The dataset is publicly available at:
-🔗 [https://github.com/Crossing-Minds/shopping-queries-image-dataset](https://github.com/Crossing-Minds/shopping-queries-image-dataset){:target="_blank"}
+🔗 [https://github.com/Crossing-Minds/shopping-queries-image-dataset](https://github.com/Crossing-Minds/shopping-queries-image-dataset){target="_blank"}
 
 
 
