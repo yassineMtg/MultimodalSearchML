@@ -87,9 +87,31 @@ Dataset stats:
 - Covers US, ES, and JP locales (this project focuses on the US locale)
 
 The dataset is publicly available at:
-🔗 [https://github.com/Crossing-Minds/shopping-queries-image-dataset](https://github.com/Crossing-Minds/shopping-queries-image-dataset target="_blank)
+🔗 [https://github.com/Crossing-Minds/shopping-queries-image-dataset](https://github.com/Crossing-Minds/shopping-queries-image-dataset)
 
-<a href="http://example.com/" target="_blank">Hello, world!</a>
+---
+
+## Project Archetype
+
+Based on the archetype framework taught in class, this project falls under the Software 2.0 category.
+
+Software 2.0 refers to systems where traditional code is replaced or augmented by machine-learned logic — typically models trained on data. Instead of writing explicit rules for ranking products or understanding user queries, the system learns from examples and uses embeddings (text + image) to drive behavior.
+
+In this project:
+
+- The ranking function is learned through semantic similarity between query and product embeddings.
+
+- The rules for what is relevant are not hardcoded — they are inferred from CLIP’s understanding of visual-textual alignment.
+
+- The system adapts and improves based on the distribution of queries and product listings.
+
+This is in contrast to:
+
+-Autonomous systems: which act in the world (e.g., robotics).
+
+-Human-in-the-loop: where a person is part of the feedback cycle (e.g., labeling data or approving results).
+
+Thus, this project is a clear example of Software 2.0 — where ML replaces handcrafted relevance ranking logic.
 
 
 
