@@ -89,6 +89,8 @@ Dataset stats:
 The dataset is publicly available at:
 🔗 [https://github.com/Crossing-Minds/shopping-queries-image-dataset](https://github.com/Crossing-Minds/shopping-queries-image-dataset){target="_blank"}
 
+<a href="http://example.com/" target="_blank">Hello, world!</a>
+
 
 
 
