@@ -125,7 +125,7 @@ This project is inspired by two key papers:
 
   - Introduced by Amazon, this dataset provides a large-scale benchmark for product search using query-product pairs labeled by relevance. It defined the ESCI labels (Exact, Substitute, Complement, Irrelevant) and proposed ranking, classification, and substitution detection tasks.
 
-Shopping Queries Image Dataset (SQID) – [arXiv:2405.15190](https://arxiv.org/abs/2405.15190)
+- Shopping Queries Image Dataset (SQID) – [arXiv:2405.15190](https://arxiv.org/abs/2405.15190)
 
   - SQID builds on SQD by enriching it with product images and pretrained embeddings (text and image) using CLIP. It supports multimodal learning and highlights the value of combining text + image for better product ranking.
 
