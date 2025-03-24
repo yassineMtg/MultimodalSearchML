@@ -74,7 +74,11 @@ The working PoC is live on Hugging Face Spaces:
 
 ![Image 1](./images/test1.png)
 
+---
+
 ![Image 2](./images/test2.png)
+
+---
 
 ![Image 3](./images/test3.png)
 
