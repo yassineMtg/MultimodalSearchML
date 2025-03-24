@@ -1,5 +1,7 @@
 # Multimodal Search ML  
 
+---
+
 # Milestone 2 [Demo](https://huggingface.co/spaces/yassinemtg/MultimodalSearchML)
 
 This milestone implements a functional **Streamlit** prototype **(PoC)** of the multimodal product search engine using OpenAI's CLIP model. The system supports natural language queries and returns visually and semantically relevant product images.

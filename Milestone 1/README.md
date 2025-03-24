@@ -4,8 +4,6 @@
 
 # Milestone 1
 
----
-
 ## Business Idea as an ML Problem
 
 In the fast-growing landscape of e-commerce, customers expect fast, accurate, and personalized search experiences. However, traditional keyword-based search engines often fall short when handling vague, visual, or ambiguous queries — such as "Nike shoes with blue swoosh" or "Apple logo hoodie" — where intent cannot be fully captured by text alone.
