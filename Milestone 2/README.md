@@ -1,10 +1,12 @@
 # Multimodal Search ML  
 
----
+# Milestone 2 [Demo](https://huggingface.co/spaces/yassinemtg/MultimodalSearchML)
 
-# Milestone 2 – Proof of Concept (PoC)
+This milestone implements a functional **Streamlit** prototype **(PoC)** of the multimodal product search engine using OpenAI's CLIP model. The system supports natural language queries and returns visually and semantically relevant product images.
 
-This milestone implements a functional prototype of the multimodal product search engine using OpenAI's CLIP model. The system supports natural language queries and returns visually and semantically relevant product images.
+## **Live Demo**
+
+[Hugging Face MultimodalSearchML Space](https://huggingface.co/spaces/yassinemtg/MultimodalSearchML)
 
 ---
 
@@ -70,11 +72,11 @@ The working PoC is live on Hugging Face Spaces:
 
 ### Test Case
 
-![Running the preprocessing pipeline](./images/preprocessing_pipeline_log.png)
+![Image 1](./images/test1.png)
 
-![Running the preprocessing pipeline](./images/test2.png)
+![Image 2](./images/test2.png)
 
-![Running the preprocessing pipeline](./images/preprocessing_pipeline_log.png)
+![Image 3](./images/test3.png)
 
 ---
 
