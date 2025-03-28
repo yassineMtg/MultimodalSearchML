@@ -1,4 +1,6 @@
 [core]
-    remote = localremote
+    remote = localstore
 ['remote "localremote"']
+    url = /home/yassine/dvcstore
+['remote "localstore"']
     url = /home/yassine/dvcstore
