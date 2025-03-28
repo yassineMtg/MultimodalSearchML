@@ -1,0 +1,6 @@
+scripts/
+check.py
+*.ipynb
+*.bak
+test_*.py
+example_repo.py
