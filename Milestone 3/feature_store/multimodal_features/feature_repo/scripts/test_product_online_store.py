@@ -15,8 +15,13 @@ features = store.get_online_features(
         "product_features_full_view:text_f0",
         "product_features_full_view:text_f1",
         "product_features_full_view:image_f0",
+	"product_features_full_view:image_f1",
     ],
     entity_rows=[{"product_id": pid} for pid in sample_product_ids]
 ).to_df()
 
+print("✅ Online Features Fetched:")
 print(features)
+
+features.to_csv("reporting/online_features_sample.csv", index=False)
+print("✅ Saved to reporting/online_features_sample.csv")
