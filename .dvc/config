@@ -1,6 +1,11 @@
 [core]
-    remote = localstore
+    remote = gdrive_remote
 ['remote "localremote"']
-    url = /home/yassine/dvcstore
+    url = /home/yassinemaatougui/dvcstore
 ['remote "localstore"']
-    url = /home/yassine/dvcstore
+    url = /home/yassinemaatougui/dvcstore
+['remote "gdrive_remote"']
+    url = gdrive://1jif_RXj_CsV3t1fU0ODfzMLOHfxZVmTz
+    gdrive_use_service_account = true
+    gdrive_user_credentials_file = ../premium-fuze-455105-t1-461cdda8cb89.json
+    gdrive_service_account_json_file_path = ../premium-fuze-455105-t1-461cdda8cb89.json

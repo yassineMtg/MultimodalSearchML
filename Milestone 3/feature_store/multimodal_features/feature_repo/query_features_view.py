@@ -1,10 +1,16 @@
 from feast import Entity, FeatureView, Field, FileSource
 from feast.types import Float32
+from feast.types import ValueType
+import os
 
-query = Entity(name="query_id", join_keys=["query_id"])
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data/raw"))
+
+query_features_path = os.path.join(BASE_DIR, "query_features_with_timestamp.parquet")
+
+query = Entity(name="query_id", join_keys=["query_id"], value_type=ValueType.INT64)
 
 query_features_source = FileSource(
-    path="data/query_features_with_timestamp.parquet",
+    path=query_features_path,
     timestamp_field="event_timestamp"
 )
 

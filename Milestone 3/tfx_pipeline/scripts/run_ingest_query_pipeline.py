@@ -1,31 +1,34 @@
 
+# tfx_pipeline/scripts/run_ingest_query_pipeline.py
+
 import sys
 import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-# from tfx.orchestration.local.local_dag_runner import LocalDagRunner
-
-from tfx_pipeline.pipelines.query_pipeline import create_pipeline
 from tfx.orchestration.local.local_dag_runner import LocalDagRunner
+from tfx_pipeline.pipelines.query_pipeline import create_pipeline
 
-# pipeline configs
-PIPELINE_NAME = "multimodal_search_pipeline"
-DATA_PATH = os.path.join("data", "raw")
-PIPELINE_ROOT = os.path.join("artifacts", PIPELINE_NAME)
-METADATA_PATH = os.path.join("tfx_metadata", "metadata.db")
+def run():
+    # Dynamically detect root
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-if __name__ == "__main__":
+    pipeline_name = "multimodal_search_pipeline"
+    pipeline_root = os.path.join(project_root, "artifacts")
+    data_path = os.path.join(project_root, "../data", "query")
+    module_file = os.path.join(project_root, "scripts", "preprocessing.py")
+    metadata_path = os.path.join(project_root, "tfx_metadata", "metadata.db")
+
     print("🚀 Starting Multimodal Search TFX pipeline...")
-
     pipeline = create_pipeline(
-        pipeline_name=PIPELINE_NAME,
-        pipeline_root=PIPELINE_ROOT,
-        data_path=DATA_PATH,
-        metadata_path=METADATA_PATH,
+        pipeline_name=pipeline_name,
+        pipeline_root=pipeline_root,
+        data_path=data_path,
+        module_file=module_file,
+        metadata_path=metadata_path,
     )
-
     LocalDagRunner().run(pipeline)
-
     print("✅ Pipeline finished successfully!")
 
+if __name__ == "__main__":
+    run()

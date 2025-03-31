@@ -1,7 +1,12 @@
 import pandas as pd
+import os
+
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../data/raw"))
+
+product_features_path = os.path.join(BASE_DIR, "product_features_flat.parquet")
 
 # Load the flattened Parquet file
-df = pd.read_parquet("data/product_features_flat.parquet")
+df = pd.read_parquet(product_features_path)
 
 # Show the first few rows
 print(df.head())

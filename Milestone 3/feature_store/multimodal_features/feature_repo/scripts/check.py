@@ -1,9 +1,12 @@
 import pandas as pd
-import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-df = pd.read_parquet("data/query_features_with_timestamp.parquet")
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../data/raw"))
+
+query_features_path = os.path.join(BASE_DIR, "query_features_with_timestamp.parquet")
+
+df = pd.read_parquet(query_features_path)
+
 row = df[df["query_id"] == 113370]
 print(row[["query_id", "event_timestamp"]])

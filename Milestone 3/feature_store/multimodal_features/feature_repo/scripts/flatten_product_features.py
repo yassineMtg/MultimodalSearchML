@@ -1,13 +1,16 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../data/raw"))
+
+file_path = os.path.join(BASE_DIR, "product_features.parquet")
+
+output_path = os.path.join(BASE_DIR, "product_features_flat.parquet")
 
 # Load the Parquet file
-df = pd.read_parquet("data/product_features.parquet")
+df = pd.read_parquet(file_path)
 
 # Safe parsing function
 def parse_features(val):
@@ -42,4 +45,4 @@ flattened_df['event_timestamp'] = [
 flattened_df['product_id'] = flattened_df['product_id'].astype(str)
 
 # Save to Parquet
-flattened_df.to_parquet("data/product_features_flat.parquet", index=False)
+flattened_df.to_parquet(output_path, index=False)

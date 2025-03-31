@@ -1,9 +1,10 @@
 import pandas as pd
-import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../data/raw"))
 
-df = pd.read_parquet("data/query_features_with_timestamp.parquet")
+query_features_path = os.path.join(BASE_DIR, "query_features_with_timestamp.parquet")
+
+df = pd.read_parquet(query_features_path)
 print(df.head())  # View first few rows
 print(df.columns[:5])  # Confirm the feature names exist
