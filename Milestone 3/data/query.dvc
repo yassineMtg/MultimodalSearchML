@@ -1,0 +1,6 @@
+outs:
+- md5: 6e1d4c15a73ed107e37a7cbed0baa036.dir
+  size: 86946670
+  nfiles: 1
+  hash: md5
+  path: query
