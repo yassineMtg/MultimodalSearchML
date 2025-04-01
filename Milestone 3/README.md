@@ -48,9 +48,9 @@ example_gen = CsvExampleGen(input_base=data_path, input_config=input_config)
 
 	- Store generated artifacts under artifacts/CsvExampleGen
 
-- Results:
+Results:
 
-You can observe the ingested data under:
+- You can observe the ingested data under:
 
 ```bash
 tfx_pipeline/artifacts/CsvExampleGen/examples/
@@ -121,7 +121,7 @@ tfx_pipeline/artifacts/StatisticsGen/statistics/
 tfx_pipeline/artifacts/SchemaGen/schema/
 ```
 
-This is the output of our schema: (schame.pbtxt)
+- This is the output of our schema: (schame.pbtxt)
 
 ```mathematica
 feature {
@@ -198,7 +198,7 @@ string_domain {
 }
 ```
 
-Anomalies report is stored under:
+- Anomalies report is stored under:
 
 ```bash
 tfx_pipeline/artifacts/ExampleValidator/anomalies/
@@ -210,5 +210,166 @@ NB:
 - The schema file (schema.pbtxt) will serve as input for the next Transform step.
 - Any anomalies detected can be analyzed in TensorBoard or directly via the generated artifacts.
 
+
+---
+
+## Data Preprocessing and Feature Engineering
+
+Prepare the dataset for model training by applying transformations, selecting useful features, and managing missing data using TensorFlow Transform (TFX Transform).
+
+I built a dedicated preprocessing module responsible for:
+
+- Selecting only useful columns (768 embedding features).
+
+- Handling potential missing data.
+
+- Preparing the data for modeling in a scalable and production-friendly way. 
+
+Preprocessing Module (preprocessing.py):
+
+```python
+import tensorflow as tf
+import tensorflow_transform as tft
+
+def preprocessing_fn(inputs):
+    # Keep only feature columns f0 to f767
+    outputs = {}
+    for i in range(768):
+        col = f"f{i}"
+        outputs[col] = inputs[col]
+
+    # Keep the event timestamp as is
+    outputs['event_timestamp'] = inputs['event_timestamp']
+
+    return outputs
+```
+
+TFX Transform Component (in the pipeline):
+
+```python
+from tfx.components import Transform
+
+transform = Transform(
+    examples=example_gen.outputs['examples'],
+    schema=schema_gen.outputs['schema'],
+    module_file=module_file,  # preprocessing.py script
+)
+```
+
+What this step achieves:
+
+- Reduces the dataset to only the needed features (f0 - f767 + timestamp).
+- Ensures data is formatted consistently.
+- Scales and prepares data in a reproducible way for future serving.
+- The transformed dataset is automatically split into:
+	- Split-train/
+	- Split-eval/
+
+Output Directories:
+
+- Transform Graph:
+
+```bash
+tfx_pipeline/artifacts/Transform/transform_graph/
+```
+
+- Transformed Dataset:
+
+```bash
+tfx_pipeline/artifacts/Transform/transformed_examples/
+```
+
+---
+
+## Feature Store
+
+In this step, I integrated Feast as a feature store to manage and serve features for the MultimodalSearchML project. The feature store plays a crucial role in centralizing, versioning, and serving feature data for both training and serving machine learning models.
+
+Objectives:
+
+- Organize, version, and serve query and product dataset features.
+- Enable consistent feature access during both training and inference.
+- Prepare for later integration with the future TFX pipeline model training phase.
+
+Data Used:
+
+- query_features_flat.csv
+- product_features_flat.parquet
+
+These datasets contain extracted features representing query embeddings and product embeddings computed using CLIP models.
+
+I installed Feast in a dedicated environment:
+
+```bash
+pip install feast==0.40.1
+```
+
+Then, initialized the feature repository:
+
+```bash
+feast init feature_store/multimodal_features
+```
+
+I defined two main FeatureViews:
+
+1. Query Feature View from query_features_flat.csv
+2. Product Feature View from product_features_flat.parquet
+
+Example from query_features_view.py:
+
+```python
+query_feature_view = FeatureView(
+    name="query_features_view",
+    entities=[query_entity],
+    ttl=Duration(seconds=86400),
+    schema=[Field(name=f"f{i}", dtype=Float32) for i in range(768)],
+    source=query_source
+)
+```
+
+Example from product_features_view.py:
+
+```python
+product_feature_view = FeatureView(
+    name="product_features_view",
+    entities=[product_entity],
+    ttl=Duration(seconds=86400),
+    schema=[Field(name=f"f{i}", dtype=Float32) for i in range(768)],
+    source=product_source
+)
+```
+ 
+#### Feature Store Registration
+
+Once the FeatureViews were defined, we applied them:
+
+```bash
+feast apply
+```
+
+Feast registered:
+
+- 2 Entities (query_id and product_id)
+- 2 FeatureViews
+- Features with embedding dimensions: (f0 to f767 for queries) and (f0 to f1535 for products)
+
+Feature Materialization: 
+
+I materialized features to be ready for offline and online serving:
+
+```bash
+feast materialize-incremental $(date -u +%Y-%m-%d)
+```
+
+Feast then generated:
+
+- Offline feature data (for training pipelines)
+- Online feature data (for future model serving)
+
+Summary: 
+
+- Both datasets were successfully managed in Feast.
+- Redis was configured as an online store (development purpose).
+- The setup ensures that during model training or serving, the exact same feature values are retrieved as during feature generation.
 
 
