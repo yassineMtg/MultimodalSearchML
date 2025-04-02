@@ -372,4 +372,332 @@ Summary:
 - Redis was configured as an online store (development purpose).
 - The setup ensures that during model training or serving, the exact same feature values are retrieved as during feature generation.
 
+---
+
+## Data Versioning (DVC)
+
+In this step, I integrated DVC (Data Version Control) to manage and version the raw data used throughout the milestone. DVC provides a Git-like workflow for datasets, making sure that every experiment or pipeline execution always uses the correct version of the data.
+
+Objectives
+
+    Track the query and product datasets systematically.
+
+    Avoid redundant storage.
+
+    Enable reproducibility of experiments.
+
+    Prepare the project for collaborative work and future experiments.
+
+I versioned the raw data folder containing:
+
+    query_features_flat.csv
+
+    query_features_with_timestamp.csv
+
+    product_features_flat.parquet
+
+    product_image_urls.csv
+
+    supp_product_image_urls.csv
+
+I initialized DVC inside the project directory:
+
+```bash
+dvc init
+```
+
+This created the .dvc/ folder and the configuration files necessary to start versioning data.
+
+Then, for tracking the dataset, I use the following command to track the whole folder:
+
+```bash
+dvc add Milestone\ 3/data/raw/
+```
+
+DVC created:
+
+- raw.dvc file to track changes.
+- .dvc/cache/ for storing dataset versions efficiently.
+
+I also configured a local remote to store data artifacts:
+
+```bash
+dvc remote add -d localremote ~/dvcstore
+dvc remote modify localremote type local
+```
+
+This ensures all future dataset versions will be pushed to ~/dvcstore safely.
+
+The datasets were pushed into the local remote:
+
+```bach
+dvc push
+```
+
+This command:
+
+- Stored the dataset version into the ~/dvcstore directory.
+
+- Allowed us to share datasets without duplicating the data.
+
+---
+
+## Ingestion and Preprocessing Pipeline (TFX)
+
+In this step, I designed and implemented a fully functional TFX (TensorFlow Extended) pipeline for ingesting, validating, and preparing the query dataset for modeling. We focused on separating ingestion, validation, and preprocessing clearly while ensuring the pipeline is clean, professional, and reproducible.
+
+### Pipeline Overview
+
+This pipeline included the following TFX components:
+
+1. CsvExampleGen
+
+2. StatisticsGen
+
+3. SchemaGen
+
+4. ExampleValidator
+
+5. Transform
+
+Each component generated useful artifacts under the artifacts/ directory automatically, maintaining the TFX structure of numbered runs and split directories (train/eval).
+
+### CsvExampleGen
+
+This component ingests the query_features_with_timestamp.csv dataset.
+
+```python
+input_config = example_gen_pb2.Input(splits=[
+    example_gen_pb2.Input.Split(name="train", pattern="query_features_with_timestamp.csv"),
+])
+example_gen = CsvExampleGen(input_base=data_path, input_config=input_config)
+```
+
+It automatically:
+
+- Split the dataset.
+
+- Converted it into TFRecords under:
+
+```swift
+tfx_pipeline/artifacts/CsvExampleGen/examples/1/Split-train/
+tfx_pipeline/artifacts/CsvExampleGen/examples/1/Split-eval/
+```
+
+### StatisticsGen
+
+It computed descriptive statistics of the dataset:
+
+```python
+statistics_gen = StatisticsGen(examples=example_gen.outputs['examples'])
+```
+
+Generated:
+
+- FeatureStats.pb containing complete statistics of all columns.
+- Split under:
+
+```swift
+artifacts/StatisticsGen/statistics/{run_id}/Split-train/FeatureStats.pb
+```
+
+### SchemaGen
+
+Automatically inferred the data schema:
+
+```python
+schema_gen = SchemaGen(statistics=statistics_gen.outputs['statistics'])
+```
+
+Generated:
+
+- schema.pbtxt defining data types, expected values, and feature constraints.
+
+- Saved under:
+
+```bash
+artifacts/SchemaGen/schema/{run_id}/schema.pbtxt
+```
+
+### ExampleValidator
+
+Validated dataset against the inferred schema:
+
+```python
+example_validator = ExampleValidator(
+    statistics=statistics_gen.outputs['statistics'],
+    schema=schema_gen.outputs['schema']
+)
+```
+
+Generated:
+
+- SchemaDiff.pb showing anomalies and schema drifts.
+
+- Stored under:
+
+```swift
+artifacts/ExampleValidator/anomalies/{run_id}/Split-train/SchemaDiff.pb
+```
+
+### Transform (Preprocessing)
+
+I used a custom preprocessing module to:
+
+- Remove unwanted features.
+
+- Scale and normalize input features.
+
+- Keep only the f0 to f767 (768 clip-text embeddings).
+
+Example code:
+
+```python
+def preprocessing_fn(inputs):
+    return {
+        f"f{i}": inputs[f"f{i}"] for i in range(768)
+    }
+```
+
+TFX Transform component:
+
+```python
+transform = Transform(
+    examples=example_gen.outputs["examples"],
+    schema=schema_gen.outputs["schema"],
+    module_file=module_file,
+)
+```
+
+Generated:
+
+- transformed_examples/ (TFRecords ready for modeling)
+
+- transform_graph/ containing transformation logic for serving
+
+
+### Full Pipeline Execution
+
+We executed the pipeline with:
+
+```bash
+python tfx_pipeline/scripts/run_ingest_query_pipeline.py
+```
+
+It completed successfully and populated the following:
+
+- All component artifacts
+
+- Automatically versioned runs (run_id folders)
+
+- Split-aware artifacts (train/eval)
+
+Example Final Pipeline Structure (auto-generated by TFX):
+
+```css
+artifacts/
+    CsvExampleGen/
+    StatisticsGen/
+    SchemaGen/
+    ExampleValidator/
+    Transform/
+```
+
+---
+
+## Data Visualization [Notebook](https://github.com/yassineMtg/MultimodalSearchML/blob/main/Milestone%203/notebooks/pipeline_summary.ipynb)
+
+After running the ingestion and preprocessing pipeline, we prepared a dedicated Jupyter Notebook to:
+
+1. Explore TFX-generated artifacts.
+
+2. Visualize statistics, schema, and anomalies.
+
+3. Confirm data correctness before training.
+
+Notebook Objective:
+
+Load pipeline artifacts automatically.
+
+- Show summary statistics.
+
+- Visualize feature distributions.
+
+- Display schema.
+
+- Report anomalies detected by ExampleValidator.
+
+- Prepare the pipeline for potential monitoring (TensorBoard or other tools).
+
+As It showed, every component's artifact is generated under:
+
+```swift
+artifacts/
+    CsvExampleGen/examples/{run_id}/Split-*/ 
+    StatisticsGen/statistics/{run_id}/Split-*/FeatureStats.pb
+    SchemaGen/schema/{run_id}/schema.pbtxt
+    ExampleValidator/anomalies/{run_id}/Split-*/SchemaDiff.pb
+    Transform/...
+```
+
+This allowed us to dynamically load latest runs using helper functions like:
+
+```python
+def get_latest_subdir(directory):
+    subdirs = [os.path.join(directory, o) for o in os.listdir(directory) if os.path.isdir(os.path.join(directory, o))]
+    if not subdirs:
+        raise FileNotFoundError(f"No subdirectories found in {directory}")
+    return max(subdirs, key=os.path.getmtime)
+```
+
+### Visualization of Dataset Statistics
+
+I used tensorflow_data_validation (tfdv) to load and visualize statistics:
+
+```python
+train_stats = tfdv.load_statistics(os.path.join(stats_path, "Split-train", "FeatureStats.pb"))
+tfdv.visualize_statistics(train_stats)
+```
+
+Output:
+
+- Rich interactive charts
+
+- Feature distributions
+
+- Missing value analysis
+
+- Data type distributions
+
+### Schema Visualization
+
+We also displayed the schema:
+
+```python
+schema = tfdv.load_schema_text(os.path.join(schema_path, "schema.pbtxt"))
+tfdv.display_schema(schema)
+```
+
+Schema gave us:
+
+- Inferred types
+
+- Domains (min/max)
+
+- Presence constraints
+
+### Anomalies Detection
+
+ExampleValidator anomalies were visualized as:
+
+```python
+anomalies = tfdv.load_anomalies_text(os.path.join(anomalies_path, "SchemaDiff.pb"))
+tfdv.display_anomalies(anomalies)
+```
+
+Result:
+
+- Quickly spotted missing values, type mismatches, or distribution drifts
+
+---
 
