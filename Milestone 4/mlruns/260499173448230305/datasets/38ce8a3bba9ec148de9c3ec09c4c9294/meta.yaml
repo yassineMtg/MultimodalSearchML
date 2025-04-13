@@ -1,0 +1,7 @@
+digest: 39e272d0
+name: dataset
+profile: '{"features_cardinality": -2}'
+schema: null
+source: '{"tags": {"mlflow.user": "yassinemaatougui", "mlflow.source.name": "tfx_pipeline/scripts/run_training_pipeline.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "be5a06b00c8e9c325d029fbe220e2c168a0da63d"}}'
+source_type: code

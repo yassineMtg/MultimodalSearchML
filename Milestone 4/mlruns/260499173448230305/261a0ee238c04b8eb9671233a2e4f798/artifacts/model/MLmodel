@@ -1,0 +1,128 @@
+artifact_path: model
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.tensorflow
+    python_version: 3.9.21
+  tensorflow:
+    code: null
+    data: data
+    keras_version: 2.15.1
+    model_type: keras
+    save_format: tf
+is_signature_from_type_hint: false
+mlflow_version: 2.21.3
+model_size_bytes: 1152784
+model_uuid: ab2f687c48894882a5b71e9329fd9950
+prompts: null
+run_id: 261a0ee238c04b8eb9671233a2e4f798
+signature:
+  inputs: '[{"name": "f0", "type": "tensor", "tensor-spec": {"dtype": "float32", "shape":
+    [-1, 1]}}, {"name": "f1", "type": "tensor", "tensor-spec": {"dtype": "float32",
+    "shape": [-1, 1]}}, {"name": "f10", "type": "tensor", "tensor-spec": {"dtype":
+    "float32", "shape": [-1, 1]}}, {"name": "f11", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f12", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f13", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f14", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f15", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f16", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f17", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f18", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f19", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f2", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f20", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f21", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f22", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f23", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f24", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f25", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f26", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f27", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f28", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f29", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f3", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f30", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f31", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f32", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f33", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f34", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f35", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f36", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f37", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f38", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f39", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f4", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f40", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f41", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f42", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f43", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f44", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f45", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f46", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f47", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f48", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f49", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f5", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f50", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f51", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f52", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f53", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f54", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f55", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f56", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f57", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f58", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f59", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f6", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f60", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f61", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f62", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f63", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f64", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f65", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f66", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f67", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f68", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f69", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f7", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f70", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f71", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f72", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f73", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f74", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f75", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f76", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f77", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f78", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f79", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f8", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f80", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f81", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f82", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f83", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f84", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f85", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f86", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f87", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f88", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f89", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f9", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f90", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f91", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f92", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f93", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f94", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f95", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f96", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f97", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f98", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}, {"name": "f99", "type": "tensor", "tensor-spec":
+    {"dtype": "float32", "shape": [-1, 1]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1,
+    1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-12 03:28:48.309863'
