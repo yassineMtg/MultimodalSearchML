@@ -7,11 +7,9 @@
 
 ## Overview
 
-This milestone focuses on the training and evaluation phase of the MultimodalSearchML pipeline. It builds on the output of Milestone 3 (data ingestion and preprocessing) and introduces a full MLOps training workflow using TensorFlow Extended (TFX).
+This milestone focuses on the training and evaluation phase of the MultimodalSearchML pipeline using real-world relevance labels from the Amazon ESCI dataset. It builds on Milestone 3, which handled data ingestion and preprocessing, and advances the pipeline with a robust training setup using TensorFlow Extended (TFX), MLflow, and CodeCarbon.
 
-The goal was not to achieve high accuracy, but to validate that the model training, evaluation, logging, and model versioning infrastructure work reliably and are modular, reproducible, and trackable.
-
-Despite the absence of labeled data in the Shopping Queries Image Dataset (SQID), we generated synthetic binary labels to simulate a supervised training setting. This allowed us to demonstrate model development, metric tracking with MLflow, and energy usage tracking with CodeCarbon.
+I used multi-class labels (Exact, Substitute, Complement, Irrelevant) from the ESCI dataset. This allowed for meaningful model training, accurate performance evaluation, and more realistic experimentation.
 
 ---
 
@@ -21,86 +19,129 @@ This milestone integrates several tools from the MLOps ecosystem to manage the t
 
 | Tools                         | Role in the Project                                                          |
 |-------------------------------|------------------------------------------------------------------------------|
-| **TFX (TensorFlow Extended)** | Used to build the training pipeline and run the `Trainer` component          |
-| **MLflow**                    | Enabled experiment tracking for hyperparameters, metrics, and model versions |
-| **CodeCarbon**                | Tracked the carbon emissions and energy consumption of the training process  |
-| **Git & GitHub**              | Used for source code version control and collaborative development workflow  |
-| **Python 3.9**                | Programming language used throughout the implementation                      |
-
+| **TFX (TensorFlow Extended)** | Powers the end-to-end training pipeline and handles modular orchestration    |
+| **MLflow**                    | Tracks experiments, logs training metrics, and stores model versions         |
+| **CodeCarbon**                | Logs energy usage and carbon emissions of model training                     |
+| **Git & GitHub**              | Maintains version control and collaborative development                      |
+| **DVC**                       | Tracks and manages dataset versions (e.g., ESCI data)                        |
+| **Python 3.9**                | Used to implement preprocessing, training logic, and orchestration code      |
 
 ---
 
 ## Dataset Overview and Preprocessing
 
-The dataset used in this milestone is the [Shopping Queries Image Dataset (SQID)](https://github.com/Crossing-Minds/shopping-queries-image-dataset), which builds upon the original SQD dataset by including product images and CLIP-based multimodal embeddings.
+The dataset used in this milestone is the [Amazon ESCI dataset](https://github.com/amazon-science/esci-data/tree/main/shopping_queries_dataset), which provides real multi-class relevance labels for query-product pairs. The ESCI labels include:
 
-From the available files in SQID, we used:
+- **E**: Exact match
 
-- `query_features.parquet`: This file contains 768-dimensional CLIP text embeddings for shopping queries.
+- **S**: Substitute
 
-For Milestone 4, we selected only the first **100 features** (`f0` to `f99`) for model input, due to hardware limitations that led to memory overflow when attempting to process all 768 features during training.
+- **C**: Complement
+
+- **I**: Irrelevant
+
+This allowed us to simulate a realistic product search environment, using actual labels rather than synthetic ones.
+
+We combined this dataset with the query CLIP embeddings from the Shopping Queries Image Dataset (SQID) used in Milestone 3. The following files were used:
+
+- query_features_with_timestamp.csv (from Milestone 3): CLIP text embeddings for shopping queries
+
+- shopping_queries_dataset_examples.parquet: Query–product pairs with real esci_labels
+
+### Merging Strategy
+
+- The two datasets were merged on the common query_id field.
+
+- The esci_label column was mapped to integer labels as follows:
+
+```python
+label_map = {'I': 0, 'C': 1, 'S': 2, 'E': 3}
+```
+
+- The resulting file (merged_queries.csv) was saved in the data/processed/ directory and used as input to the pipeline.
 
 ### Preprocessing Logic
 
-I reused the preprocessing pipeline from Milestone 3, which performs the following:
+The Transform component in TFX was updated to:
 
-- Parses and passes numerical features (`f0` to `f99`) as-is
-- Applies a **synthetic binary labeling strategy**:
-- `label = 1` if `f0 > 0`, otherwise `label = 0`
+- Pass all 768 features (f0 to f767) unchanged
 
-This approach simulates a supervised learning setup for pipeline validation purposes, as the SQID dataset does not contain labeled relevance information.
+- Accept the real label column directly without synthetic generation
+
+- Ensure compatibility with sparse_categorical_crossentropy for multi-class classification
+
+This marks a significant upgrade over the earlier synthetic-label strategy, making training outcomes more interpretable and relevant to the underlying task.
 
 ---
 
 ## Model Architecture and Training Setup
 
-The model used in this milestone is a simple **Multi-Layer Perceptron (MLP)** built using TensorFlow Keras. It is designed to take in 100 CLIP text embedding features (`f0` to `f99`) and output a binary classification label.
+We designed a multi-class classification model using TensorFlow Keras to predict the ESCI relevance label (E, S, C, I) based on the 768-dimensional CLIP text embeddings of shopping queries.
 
 ### Model Structure
 
-- **Input:** 100-dimensional vector (concatenation of features `f0` to `f99`)
-- **Hidden Layers:**
-- Dense layer with 256 units, ReLU activation
-  - Dropout layer (0.3)
-  - Dense layer with 128 units, ReLU activation
-- **Output:** Dense layer with 1 unit, Sigmoid activation (binary classification)
+- **Input**: 768-dimensional CLIP embedding vector (f0 to f767)
 
-The model was compiled with:
+- **Architecture**:
 
-- **Loss Function:** `binary_crossentropy`
-- **Optimizer:** `Adam`
-- **Metrics:** `accuracy`
+    - Dense layer with 256 units, ReLU activation
+
+    - Dropout layer (0.3)
+
+    - Dense layer with 128 units, ReLU activation
+
+    - Output Layer: Dense layer with 4 units, Softmax activation
+
+### Model Compilation
+
+- Loss Function: sparse_categorical_crossentropy (used with integer labels 0–3)
+
+- Optimizer: adam
+
+- Metrics: accuracy
 
 ### Training Configuration
 
 - **Batch size:** 32
 - **Epochs:** 50 (early stopping applied with patience = 5)
-- **Validation split:** Provided via TFX pipeline's `eval_dataset`
-- **Runner:** `LocalDagRunner` from TFX
+- **Steps per epoch**: 200 (controlled via TrainArgs)
+- **Validation split:** Validation: Provided via **eval_dataset** in the TFX pipeline
 - **Checkpoints:** Saved after every epoch via `ModelCheckpoint` callback
+
+This architecture balances simplicity and scalability, offering a strong baseline while keeping the model TFX-friendly and resource-efficient.
 
 ---
 
 ## Experiment Tracking with MLflow
 
-To enable experiment tracking, MLflow was integrated into the TFX `Trainer` component. This allowed us to automatically and manually log:
+MLflow was integrated into the Trainer component of the TFX pipeline to enable end-to-end experiment tracking for model development. The tracking setup captures all key aspects of the training run.
 
-- Training and validation metrics (`accuracy`, `val_accuracy`, `loss`, `val_loss`)
-- Model parameters (`batch_size`, `epochs`, `input_dim`, `optimizer`)
-- Model versioning through MLflow run IDs
-- Comparison between different training runs using the MLflow UI
+### What Was Logged
+
+- Training and Validation Metrics
+
+    - accuracy, val_accuracy, loss, val_loss
+
+- Hyperparameters
+
+    - batch_size, epochs, input_dim, optimizer
+
+- Model versions
+
+    - Saved under individual MLflow run IDs for comparison
+    
+Both manual logging (mlflow.log_param) and autologging (mlflow.tensorflow.autolog()) were used to ensure full visibility of model behavior.
 
 ### MLflow Setup
 
 - Experiment name: `milestone4_training`
 - Tracking UI hosted locally via:
   ```bash
-  mlflow ui --host 0.0.0.0 --port 5000
+  mlflow ui --host 0.0.0.0
   ```
-- Metrics and parameters are visible in the MLflow dashboard and can be compared across runs
-- Autologging (mlflow.tensorflow.autolog()) was used for seamless integration with Keras
+- Tracking Source: Model training was launched via LocalDagRunner inside the TFX pipeline.
 
-Sample Metrics Logged:
+### Sample Results from MLflow
 
 |Metric       |	Value   |
 |-------------|---------|
@@ -108,6 +149,8 @@ Sample Metrics Logged:
 |Val Accuracy |	0.7652  |
 |Loss         |	0.6471  |
 |Val Loss     |	0.5114  |
+
+These metrics reflect training with real ESCI labels and indicate the model's ability to generalize relevance decisions across multiple product-query pairs.
 
 ---
 
@@ -119,16 +162,16 @@ The `EmissionsTracker` was configured to output logs into the pipeline’s artif
 
 ### Key Results from emissions.csv
 
-| Metric              | Value                     |
-|---------------------|---------------------------|
-| Duration            | ~6 seconds                |
-| Emissions           | **0.000056 kg CO₂**       |
-| CPU Power Used      | 42.5 W                    |
-| RAM Power Used      | 11.4 W                    |
-| CPU Energy Consumed | 0.00007 kWh               |
-| Region              | Casablanca, Morocco       |
-| CPU Model           | AMD Ryzen 7 7700          |
-| Tracking Mode       | `machine` (local hardware)|
+| Metric              | Value                      |
+|---------------------|----------------------------|
+| Duration            | ~6 seconds                 |
+| Emissions           | **0.000056 kg CO₂**        |
+| CPU Power Used      | 42.5 W                     |
+| RAM Power Used      | 11.4 W                     |
+| CPU Energy Consumed | 0.00007 kWh                |
+| Region              | Casablanca, Morocco        |
+| CPU Model           | AMD Ryzen 7 7700           |
+| Tracking Mode       | `machine` (local hardware) |
 
 This demonstrates a growing awareness of sustainable ML practices and carbon-aware experimentation.
 
