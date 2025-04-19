@@ -28,6 +28,14 @@ This milestone integrates several tools from the MLOps ecosystem to manage the t
 
 ---
 
+##  Project Structure & Cookiecutter Template
+
+This project was initially scaffolded using a modified version of the **Cookiecutter Data Science** structure, then adapted to fit milestone-based development. Each milestone was placed in its own subfolder to track progress clearly while maintaining modularity.
+
+The core ideas from Cookiecutter — such as separation of `data/`, `notebooks/`, `scripts/`, and `models/` — are reflected across the milestones.
+
+---
+
 ## Dataset Overview and Preprocessing
 
 The dataset used in this milestone is the [Amazon ESCI dataset](https://github.com/amazon-science/esci-data/tree/main/shopping_queries_dataset), which provides real multi-class relevance labels for query-product pairs. The ESCI labels include:
