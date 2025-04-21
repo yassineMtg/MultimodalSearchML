@@ -1,0 +1,6 @@
+outs:
+- md5: 8885dd88323e999c5d9f6396dcd356fd.dir
+  size: 313884470
+  nfiles: 5
+  hash: md5
+  path: backup

@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone 4_test/mlruns/155918994555271328/6ed82aeeac1e443293b980d9611f5c73/artifacts
+end_time: 1745110875491
+entry_point_name: ''
+experiment_id: '155918994555271328'
+lifecycle_stage: active
+run_id: 6ed82aeeac1e443293b980d9611f5c73
+run_name: Run_1
+run_uuid: 6ed82aeeac1e443293b980d9611f5c73
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745110869305
+status: 4
+tags: []
+user_id: yassinemaatougui

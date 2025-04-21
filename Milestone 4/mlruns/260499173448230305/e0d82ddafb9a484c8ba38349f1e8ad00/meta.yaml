@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone%204/mlruns/260499173448230305/e0d82ddafb9a484c8ba38349f1e8ad00/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '260499173448230305'
+lifecycle_stage: active
+run_id: e0d82ddafb9a484c8ba38349f1e8ad00
+run_name: calm-donkey-347
+run_uuid: e0d82ddafb9a484c8ba38349f1e8ad00
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744494927501
+status: 1
+tags: []
+user_id: yassinemaatougui

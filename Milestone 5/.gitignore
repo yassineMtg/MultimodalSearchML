@@ -1,0 +1,9 @@
+# Ignore all data
+data/
+*.npy
+*.parquet
+*.csv
+
+# Ignore logs
+*.log
+__pycache__/

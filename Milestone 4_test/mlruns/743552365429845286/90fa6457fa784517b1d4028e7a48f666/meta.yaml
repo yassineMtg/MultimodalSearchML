@@ -1,0 +1,16 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone 4_test/mlruns/743552365429845286/90fa6457fa784517b1d4028e7a48f666/artifacts
+deleted_time: 1745179562003
+end_time: 1745178831284
+entry_point_name: ''
+experiment_id: '743552365429845286'
+lifecycle_stage: deleted
+run_id: 90fa6457fa784517b1d4028e7a48f666
+run_name: 'query: smart watch'
+run_uuid: 90fa6457fa784517b1d4028e7a48f666
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745178831278
+status: 3
+tags: []
+user_id: yassinemaatougui

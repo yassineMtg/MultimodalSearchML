@@ -1,0 +1,16 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone 4_test/mlruns/743552365429845286/a81e8551cb9649e98d8f836b5f5d0d4e/artifacts
+deleted_time: 1745179562004
+end_time: 1745178831254
+entry_point_name: ''
+experiment_id: '743552365429845286'
+lifecycle_stage: deleted
+run_id: a81e8551cb9649e98d8f836b5f5d0d4e
+run_name: 'query: red t-shirt'
+run_uuid: a81e8551cb9649e98d8f836b5f5d0d4e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745178831247
+status: 3
+tags: []
+user_id: yassinemaatougui

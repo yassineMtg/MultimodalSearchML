@@ -1,0 +1,4 @@
+artifacts/
+tfx_metadata/
+/artifacts
+/tfx_metadata

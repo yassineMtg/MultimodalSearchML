@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone%204_test/mlruns/639914157443048504/3d1fca958d824780917d1901361d14a9/artifacts
+end_time: 1744518802189
+entry_point_name: ''
+experiment_id: '639914157443048504'
+lifecycle_stage: active
+run_id: 3d1fca958d824780917d1901361d14a9
+run_name: smiling-sloth-969
+run_uuid: 3d1fca958d824780917d1901361d14a9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744518789971
+status: 3
+tags: []
+user_id: yassinemaatougui

@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone%204_test/mlruns/639914157443048504/ff7aa9aa08184a8ead8bd574287c1787/artifacts
+end_time: 1744519321323
+entry_point_name: ''
+experiment_id: '639914157443048504'
+lifecycle_stage: active
+run_id: ff7aa9aa08184a8ead8bd574287c1787
+run_name: colorful-auk-729
+run_uuid: ff7aa9aa08184a8ead8bd574287c1787
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744519308997
+status: 3
+tags: []
+user_id: yassinemaatougui

@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone%204/mlruns/260499173448230305/14535be82f5d4fdf98a298cd5b43a44a/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '260499173448230305'
+lifecycle_stage: active
+run_id: 14535be82f5d4fdf98a298cd5b43a44a
+run_name: aged-finch-275
+run_uuid: 14535be82f5d4fdf98a298cd5b43a44a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744495828731
+status: 1
+tags: []
+user_id: yassinemaatougui

@@ -1,0 +1,6 @@
+outs:
+- md5: 02e935057a9ef0fc5544132083605946.dir
+  size: 245760
+  nfiles: 1
+  hash: md5
+  path: tfx_metadata

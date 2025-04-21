@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone 4_test/mlruns/743552365429845286/87b2a9e52c444c4dba06a1fb5bd85faa/artifacts
+end_time: 1745179527904
+entry_point_name: ''
+experiment_id: '743552365429845286'
+lifecycle_stage: active
+run_id: 87b2a9e52c444c4dba06a1fb5bd85faa
+run_name: 'query: keyboard'
+run_uuid: 87b2a9e52c444c4dba06a1fb5bd85faa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745179527896
+status: 3
+tags: []
+user_id: yassinemaatougui
