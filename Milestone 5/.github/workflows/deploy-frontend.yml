@@ -1,0 +1,40 @@
+name: Deploy React Frontend to cPanel via FTP
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Milestone 5/react-ui/**'
+      - 'Milestone 5/.github/workflows/deploy-frontend.yml'
+
+jobs:
+  deploy:
+    name: Build & Deploy React Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        working-directory: Milestone 5/react-ui
+        run: npm install
+
+      - name: Build React App
+        working-directory: Milestone 5/react-ui
+        run: npm run build
+
+      - name: Upload via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: Milestone 5/react-ui/dist
+          server-dir: ${{ secrets.FTP_TARGET_DIR }}

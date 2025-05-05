@@ -1,0 +1,29 @@
+name: Deploy to Hugging Face Spaces
+
+on:
+  push:
+    branches: [main]  # Or your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create deployment directory with selected files only
+        run: |
+          mkdir deploy_dir
+          cp -r "Milestone 5/Dockerfile" deploy_dir/
+          cp -r "Milestone 5/requirements.lock" deploy_dir/
+          cp -r "Milestone 5/app" deploy_dir/
+          cp -r "Milestone 5/models" deploy_dir/
+
+      - name: Deploy to Hugging Face Space
+        uses: huggingface/huggingface-cli-action@v0.1
+        with:
+          api_token: ${{ secrets.HF_TOKEN }}
+          repo_id: yassinemtg/smartsearch-api
+          repo_type: space
+          path: ./deploy_dir

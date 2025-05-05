@@ -7,3 +7,5 @@ data/
 # Ignore logs
 *.log
 __pycache__/
+app/.env
+.env

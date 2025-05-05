@@ -1,12 +1,16 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SearchBox from './components/SearchBox';
-import './App.scss';
+import ProductDetail from './components/ProductDetail';
 
 const App = () => {
   return (
-    <div className="app-wrapper">
-      <SearchBox />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SearchBox />} />
+        <Route path="/product-detail" element={<ProductDetail />} />
+      </Routes>
+    </Router>
   );
 };
 

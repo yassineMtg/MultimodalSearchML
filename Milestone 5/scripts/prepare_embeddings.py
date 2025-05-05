@@ -1,76 +1,76 @@
-
 # scripts/prepare_embeddings.py
 
 import os
 import numpy as np
 import pandas as pd
+import clip
+import torch
+from tqdm import tqdm
 
-BASE_DIR            = "data"
+BASE_DIR = "data"
 
-PRODUCTS_PATH       = os.path.join(BASE_DIR, "shopping_queries_dataset_products.parquet")
-MERGED_PATH         = os.path.join(BASE_DIR, "merged/merged_dataset.parquet")
-IMG_URL_PATH        = os.path.join(BASE_DIR, "product_image_urls.csv")
-SUPP_IMG_URL_PATH   = os.path.join(BASE_DIR, "supp_product_image_urls.csv")
-
-OUTPUT_EMBEDDINGS   = os.path.join(BASE_DIR, "processed/product_embeddings.npy")
-OUTPUT_METADATA     = os.path.join(BASE_DIR, "processed/product_metadata.parquet")
-
-
-def parse_embedding(embedding):
-    """Parses a stringified NumPy array into actual NumPy array"""
-    if isinstance(embedding, str):
-        return np.fromstring(embedding.strip("[]").replace("\n", ""), sep=" ")
-    elif isinstance(embedding, np.ndarray):
-        return embedding
-    else:
-        return None
+CLEAN_META_PATH = os.path.join(BASE_DIR, "processed/product_metadata_reachable.parquet")
+OUTPUT_EMBEDDINGS = os.path.join(BASE_DIR, "processed/product_embeddings_clean.npy")
+OUTPUT_METADATA = os.path.join(BASE_DIR, "processed/product_metadata_clean.parquet")
 
 
 def main():
-    print("🔍 Loading merged dataset...")
-    df = pd.read_parquet(MERGED_PATH)
+    print("🔍 Loading CLEAN dataset columns only...")
+    df_meta = pd.read_parquet(CLEAN_META_PATH, columns=[
+        "product_id", "product_title", "product_description",
+        "product_bullet_point", "product_brand", "product_color", "image_urls"
+    ])
+    print(f"✅ Loaded clean metadata: {df_meta.shape}")
 
-    print("🧠 Parsing CLIP text embeddings...")
-    df["embedding"] = df["clip_text_features_product_embed"].apply(parse_embedding)
-    df = df[df["embedding"].notnull()].reset_index(drop=True)
+    # ❌ Filter out movie-related titles using basic keyword filtering
+    keywords_to_exclude = ["season", "episode", "trailer", "blu-ray", "film", "dvd", "tv", "series", "prime video"]
+    before_filter = len(df_meta)
+    df_meta = df_meta[~df_meta["product_title"].str.lower().str.contains("|".join(keywords_to_exclude), na=False)]
+    after_filter = len(df_meta)
+    print(f"🧹 Removed {before_filter - after_filter} suspected movie/media entries. Remaining: {after_filter}")
 
-    print("📝 Selecting metadata columns...")
-    metadata_cols = [
-        "product_id", "product_title", "product_description", "product_bullet_point",
-        "product_brand", "product_color"
-    ]
-    metadata_df = df[metadata_cols + ["embedding"]].copy()
+    print("🧠 Loading CLIP model (ViT-B/32) on cpu...")
+    device = "cpu"
+    model, preprocess = clip.load("ViT-B/32", device=device)
 
-    print("🖼️ Merging image URLs from product_image_urls and supp_product_image_urls...")
-    if os.path.exists(IMG_URL_PATH) and os.path.exists(SUPP_IMG_URL_PATH):
-        img_df = pd.read_csv(IMG_URL_PATH)
-        supp_df = pd.read_csv(SUPP_IMG_URL_PATH)
+    titles = df_meta["product_title"].astype(str).tolist()
 
-        # Combine both image sources
-        all_imgs = pd.concat([img_df, supp_df], ignore_index=True)
+    print("🧹 Filtering titles using clip.tokenize()...")
+    safe_titles = []
+    safe_indices = []
 
-        # Group image URLs as list per product
-        grouped_imgs = all_imgs.groupby("product_id")["image_url"].apply(list).reset_index()
+    for idx, title in tqdm(enumerate(titles), total=len(titles), desc="Filtering titles"):
+        try:
+            tokens = clip.tokenize([title])
+            if tokens.shape[1] <= 77:
+                safe_titles.append(title)
+                safe_indices.append(idx)
+        except Exception:
+            continue
 
-        # Merge into metadata
-        metadata_df = metadata_df.merge(grouped_imgs, on="product_id", how="left")
+    print(f"✅ {len(safe_titles)} safe titles selected.")
 
-        # Optional: join into comma-separated string
-        metadata_df["image_urls"] = metadata_df["image_url"].apply(
-            lambda urls: ", ".join([str(u) for u in urls if isinstance(u, str)]) if isinstance(urls, list) else ""
-        )
-        metadata_df.drop(columns=["image_url"], inplace=True)
-    else:
-        print("⚠️ Warning: One or both image files missing. Skipping image URL merge.")
+    df_meta_safe = df_meta.iloc[safe_indices].reset_index(drop=True)
 
-    print("💾 Saving embeddings and metadata...")
-    embeddings = np.stack(metadata_df["embedding"].values)
-    metadata_df.drop(columns=["embedding"], inplace=True)
+    print("📝 Encoding safe titles using CLIP...")
+    batch_size = 256
+    all_embeddings = []
 
-    np.save(OUTPUT_EMBEDDINGS, embeddings)
-    metadata_df.to_parquet(OUTPUT_METADATA, index=False)
+    for i in tqdm(range(0, len(safe_titles), batch_size), desc="Encoding batches"):
+        batch = safe_titles[i:i + batch_size]
+        tokens = clip.tokenize(batch).to(device)
+        with torch.no_grad():
+            embeddings = model.encode_text(tokens).cpu().numpy()
+            all_embeddings.append(embeddings)
 
-    print("✅ Done! Embeddings and metadata saved.")
+    all_embeddings = np.vstack(all_embeddings)
+
+    print("💾 Saving clean embeddings and metadata...")
+    os.makedirs(os.path.dirname(OUTPUT_EMBEDDINGS), exist_ok=True)
+    np.save(OUTPUT_EMBEDDINGS, all_embeddings)
+    df_meta_safe.to_parquet(OUTPUT_METADATA, index=False)
+
+    print("✅ Done! 🎯 Clean embeddings and metadata are saved.")
 
 
 if __name__ == "__main__":

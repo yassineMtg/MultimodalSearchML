@@ -1,5 +1,6 @@
 # Milestone_4_test/tfx_pipeline/components/trainer.py
 
+import torch
 from typing import Any, Dict
 import os
 import tensorflow as tf
@@ -45,10 +46,20 @@ def run_fn(fn_args: Dict[str, Any]) -> None:
     tracker = EmissionsTracker(output_dir=fn_args.model_run_dir, log_level="error")
     tracker.start()
 
+    # ✅ CLIP Integration (simulated usage)
+    import clip
+    clip_model, _ = clip.load("ViT-B/32", device="cpu")
+    text_tokens = clip.tokenize(["sample query"]).to("cpu")
+    with torch.no_grad():
+        _ = clip_model.encode_text(text_tokens)
+    print("✅ CLIP model loaded and sample query encoded.")
+
+    # TFX Transform
     tf_transform_output = tft.TFTransformOutput(fn_args.transform_output)
     train_dataset = _input_fn(fn_args.train_files, tf_transform_output, batch_size=32)
     eval_dataset = _input_fn(fn_args.eval_files, tf_transform_output, batch_size=32)
 
+    # MLflow tracking
     mlflow.set_experiment("milestone4_training_real_labels")
     mlflow.tensorflow.autolog(log_models=False)
 

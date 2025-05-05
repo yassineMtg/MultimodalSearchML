@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone%204_test/mlruns/639914157443048504/ba383b25ffaf4a7fb84ce6889d018b78/artifacts
+end_time: 1746122405804
+entry_point_name: ''
+experiment_id: '639914157443048504'
+lifecycle_stage: active
+run_id: ba383b25ffaf4a7fb84ce6889d018b78
+run_name: spiffy-auk-777
+run_uuid: ba383b25ffaf4a7fb84ce6889d018b78
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746122394062
+status: 3
+tags: []
+user_id: yassinemaatougui
