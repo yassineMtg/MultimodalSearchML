@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone%205/mlruns/603985923177444518/326746e1f884429eb417e942a72ae8eb/artifacts
+end_time: 1746485605478
+entry_point_name: ''
+experiment_id: '603985923177444518'
+lifecycle_stage: active
+run_id: 326746e1f884429eb417e942a72ae8eb
+run_name: brawny-penguin-991
+run_uuid: 326746e1f884429eb417e942a72ae8eb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746485593075
+status: 3
+tags: []
+user_id: yassinemaatougui

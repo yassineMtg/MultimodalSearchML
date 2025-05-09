@@ -86,32 +86,6 @@ const SearchBox = () => {
         <h1>🔍 Smart Product Search</h1>
 
         <div className="controls-row">
-          {/* <div className="search-upload-wrapper">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search for a product (e.g. wireless headphones)"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && fetchResults()}
-              title="Write what you want to search"
-            />
-            <label className="upload-btn">
-              {image ? (
-                <span className="file-ext">{'.' + image.name.split('.').pop()}</span>
-              ) : (
-                "📷"
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-                hidden
-              />
-            </label>
-
-          </div> */}
-
           <div className="search-upload-wrapper">
             <input
               type="text"
@@ -197,7 +171,7 @@ const SearchBox = () => {
             </label>
           </div>
 
-          <button onClick={fetchResults}>
+          <button onClick={fetchResults} className="search-btn">
             {loading ? "Searching..." : "Search"}
           </button>
         </div>
@@ -222,7 +196,7 @@ const SearchBox = () => {
                   <img
                     src={item.image_urls.split(",")[0]?.trim()}
                     alt={item.product_title}
-                    className="product-image"
+                    className="product-images"
                   />
                 )}
                 <div>

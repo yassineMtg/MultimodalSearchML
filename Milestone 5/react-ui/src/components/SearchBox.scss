@@ -13,9 +13,10 @@
 
 h1 {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 5rem;
+  margin-top: 2.5rem;
   color: #111;
 }
 
@@ -214,7 +215,7 @@ button:hover {
 }
 
 
-.product-image {
+.product-images {
   width: 100%;
   height: 150px;
   object-fit: contain;
@@ -331,7 +332,7 @@ button:hover {
 .upload-btn {
   background-color: #1f1f25;
   color: white;
-  height: 41.7px;
+  height: 41.5px;
   padding: 0 1.8rem;
   border-radius: 0 10px 10px 0;
   display: flex;
@@ -370,7 +371,7 @@ button:hover {
   color: white;
   cursor: pointer;
   padding: 0 1.2rem;
-  height: 39.5px; // Match upload-btn height
+  height: 41px; // Match upload-btn height
   display: flex;
   align-items: center;
   justify-content: center;
@@ -392,5 +393,63 @@ button:hover {
   
   .clear-image-btn {
     display: flex; // Ensure it's visible
+  }
+}
+
+.results-summary {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+
+@media screen and (max-width: 900px) {
+
+  h1{
+    font-size: 28px;
+  }
+
+  .container{
+    padding: 3rem;
+  }
+
+  .controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+    overflow-x: auto;
+
+
+      
+    .search-upload-wrapper{
+        width: 100%;
+        
+      .search-input{
+        flex: 1 1 50%;
+        width: 100%;
+      }
+      
+    }
+
+    .input-group{
+      width: 45%;
+
+      .tiny-input{
+        width: 80px;
+      }
+
+      label{
+        font-size: 12px;
+      }
+    }
+
+    button{
+      width: 100%;
+    }
+  }
+
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

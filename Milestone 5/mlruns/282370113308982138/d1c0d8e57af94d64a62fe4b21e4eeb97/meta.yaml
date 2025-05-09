@@ -1,0 +1,15 @@
+artifact_uri: file:///home/yassinemaatougui/Desktop/MultimodalSearchML/Milestone%205/mlruns/282370113308982138/d1c0d8e57af94d64a62fe4b21e4eeb97/artifacts
+end_time: 1746495341257
+entry_point_name: ''
+experiment_id: '282370113308982138'
+lifecycle_stage: active
+run_id: d1c0d8e57af94d64a62fe4b21e4eeb97
+run_name: colorful-dog-108
+run_uuid: d1c0d8e57af94d64a62fe4b21e4eeb97
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746495339865
+status: 3
+tags: []
+user_id: yassinemaatougui
