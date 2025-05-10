@@ -242,7 +242,7 @@ A custom Dockerfile was written to:
 
 - Launch the FastAPI server using uvicorn
 
-- Key Dockerfile commands:
+Key Dockerfile commands:
 
 ```bash
 FROM python:3.10-slim
