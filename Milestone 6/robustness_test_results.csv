@@ -1,0 +1,11 @@
+query,rewritten_query,route,top_product_ids,num_results,latency_ms
+smart watch,smart watch,B (ViT-L/14),"['B07NXXYG1G', 'B07NXXYG1G', 'B078SLFMQM', 'B089XZRTBK', 'B078SR37XP']",5,327.14
+smaart wach,smaart wach,B (ViT-L/14),"['B00U6NUCO0', 'B085T8NZ4T', 'B01N42ECGC', 'B089XZRTBK', 'B078SLFMQM']",5,333.63
+sm@rt watch!!!,sm@rt watch!!!,B (ViT-L/14),"['B085T8NZ4T', '1982156945', 'B07VHT2SKB', 'B07VHT2SKB', '1492671118']",5,324.32
+smartwatch ,smartwatch,B (ViT-L/14),"['B07GJT8D5N', 'B07GJT8D5N', '1631263757', 'B07NXXYG1G', 'B07NXXYG1G']",5,331.89
+    smart    watch,smart    watch,B (ViT-L/14),"['B07NXXYG1G', 'B07NXXYG1G', 'B078SLFMQM', 'B089XZRTBK', 'B078SR37XP']",5,324.5
+what is the best watch,what is the best watch,B (ViT-L/14),"['B07NXXYG1G', 'B07NXXYG1G', 'B085T8NZ4T', 'B074WHCJML', 'B0007CNXNW']",5,327.31
+asdfghjkl,asdfghjkl,B (ViT-L/14),"['B076FM6S95', 'B089XZRTBK', 'B078SR37XP', 'B078SLFMQM', 'B00000DAMR']",5,329.53
+,,,[],0,0.0
+!!!???,!!!???,B (ViT-L/14),"['B00J06FLQI', 'B088K1KWFD', 'B088K1KWFD', 'B003TYL08K', 'B079DZCLSX']",5,320.75
+شاشة ذكية,شاشة ذكية,B (ViT-L/14),"['B00J06FLQI', 'B088K1KWFD', 'B088K1KWFD', 'B07Z4L91BM', 'B07CPPZZ1F']",5,323.53

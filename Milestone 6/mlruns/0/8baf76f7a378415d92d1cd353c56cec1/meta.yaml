@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/8baf76f7a378415d92d1cd353c56cec1/artifacts
+end_time: 1747020852784
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8baf76f7a378415d92d1cd353c56cec1
+run_name: A/B Testing Search Text
+run_uuid: 8baf76f7a378415d92d1cd353c56cec1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747020852778
+status: 3
+tags: []
+user_id: yassinemaatougui

@@ -1,0 +1,36 @@
+query,product_id,model_selected,demographic,score,label_value
+shoes for women,B000I9VON0,B (ViT-L/14),female,1.0,1
+shoes for women,B009EEQS4K,B (ViT-L/14),female,1.0,1
+shoes for women,B076QZ8GCJ,B (ViT-L/14),female,1.0,1
+shoes for women,B07RD42GVS,B (ViT-L/14),female,1.0,1
+shoes for women,B07L52MS5G,B (ViT-L/14),female,1.0,1
+shoes for men,B000I9VON0,B (ViT-L/14),male,1.0,1
+shoes for men,B00N8M8RSO,B (ViT-L/14),male,1.0,1
+shoes for men,B07L52MS5G,B (ViT-L/14),male,1.0,1
+shoes for men,B0028G72U0,B (ViT-L/14),male,1.0,1
+shoes for men,B07RD42GVS,B (ViT-L/14),male,1.0,1
+toys for kids,B00005Q4CV,B (ViT-L/14),child,1.0,1
+toys for kids,0800728335,B (ViT-L/14),child,1.0,1
+toys for kids,B07YZSJNNM,B (ViT-L/14),child,1.0,1
+toys for kids,B00UC988GC,B (ViT-L/14),child,1.0,1
+toys for kids,B003OPYOR8,B (ViT-L/14),child,1.0,1
+sports equipment for seniors,1285444914,B (ViT-L/14),senior,1.0,1
+sports equipment for seniors,0073128546,B (ViT-L/14),senior,1.0,1
+sports equipment for seniors,1337559083,B (ViT-L/14),senior,1.0,1
+sports equipment for seniors,0983361509,B (ViT-L/14),senior,1.0,1
+sports equipment for seniors,B008Y5V264,B (ViT-L/14),senior,1.0,1
+hijab,B088K1KWFD,B (ViT-L/14),muslim,1.0,1
+hijab,B00J06FLQI,B (ViT-L/14),muslim,1.0,1
+hijab,B088K1KWFD,B (ViT-L/14),muslim,1.0,1
+hijab,B000JOC474,B (ViT-L/14),muslim,1.0,1
+hijab,0316519006,B (ViT-L/14),muslim,1.0,1
+christmas decorations,B00Z71D93W,B (ViT-L/14),christian,1.0,1
+christmas decorations,B004FHC0E8,B (ViT-L/14),christian,1.0,1
+christmas decorations,B0837K3Q51,B (ViT-L/14),christian,1.0,1
+christmas decorations,B003JMP5AG,B (ViT-L/14),christian,1.0,1
+christmas decorations,B07CH1289J,B (ViT-L/14),christian,1.0,1
+ramadan gifts,B07B2C6YQ1,B (ViT-L/14),muslim,1.0,1
+ramadan gifts,0451492935,B (ViT-L/14),muslim,1.0,1
+ramadan gifts,B081536PNK,B (ViT-L/14),muslim,1.0,1
+ramadan gifts,B000JOC474,B (ViT-L/14),muslim,1.0,1
+ramadan gifts,1250623774,B (ViT-L/14),muslim,1.0,1
