@@ -49,8 +49,9 @@ Evaluate two models online using **A/B Testing framework integrated in the API**
 
 ### Links:
 
-[A/B Testing App (FastAPI on HF Space)](https://yassinemtg-ab-testing.hf.space)
-[A/B Testing App (React on cloud)](https://smartsearchml.yassinemaatougui.tech/ab-test)
+- [A/B Testing App (FastAPI on HF Space)](https://yassinemtg-ab-testing.hf.space)
+
+- [A/B Testing App (React on cloud)](https://smartsearchml.yassinemaatougui.tech/ab-test)
 
 ### Conclusion:
 
