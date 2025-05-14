@@ -28,47 +28,71 @@ const SearchBox = () => {
   const [threshold, setThreshold] = useState(0.8);
   const [allProducts, setAllProducts] = useState(true); // checked by default
   const [ignoreScore, setIgnoreScore] = useState(true); // checked by default
+  const [imageLink, setImageLink] = useState("");
+  const [showLinkInput, setShowLinkInput] = useState(false);
 
+  const clearImage = () => {
+    setImage(null);
+    setImageLink("");
+    setShowLinkInput(false);
+  };
+  
   const fetchResults = async () => {
-    if (!query.trim() && !image) return;
+    if (!query.trim() && !image && !imageLink.trim()) return;
     setLoading(true);
-
+  
     try {
       let response;
-
+  
+      const formData = new FormData();
+      formData.append("k", allProducts ? 9999 : topK);
+  
       if (image) {
-        const formData = new FormData();
         formData.append("image", image);
-        formData.append("k", allProducts ? 9999 : topK);
-
-        response = await axios.post("https://yassinemtg-smartsearch-api.hf.space/predict-image", formData, {
+      } else if (imageLink.trim()) {
+        formData.append("image_url", imageLink);
+      } else {
+        // fallback to text query (separate API)
+        response = await axios.post(
+          "https://yassinemtg-smartsearch-api.hf.space/predict",
+          {
+            query,
+            k: allProducts ? 9999 : topK
+          },
+          { timeout: 50000 }
+        );
+        handleResponse(response);
+        return;
+      }
+  
+      response = await axios.post(
+        "https://yassinemtg-smartsearch-api.hf.space/predict-image",
+        formData,
+        {
           headers: { 'Content-Type': 'multipart/form-data' },
           timeout: 50000
-        });
-      } else {
-        response = await axios.post("https://yassinemtg-smartsearch-api.hf.space/predict", {
-          query,
-          k: allProducts ? 9999 : topK
-        }, { timeout: 50000 });
-      }
-
-      const filtered = ignoreScore
-        ? response.data.results
-        : response.data.results.filter(r => r.score >= threshold);
-
-      setResults(filtered.slice(0, allProducts ? filtered.length : topK));
-      setPage(1);
+        }
+      );
+  
+      handleResponse(response);
     } catch (error) {
       console.error("Search failed:", error);
       setResults([]);
     }
-
+  
     setLoading(false);
   };
-
-  const clearImage = () => {
-    setImage(null);
+  
+  const handleResponse = (response) => {
+    const filtered = ignoreScore
+      ? response.data.results
+      : response.data.results.filter(r => r.score >= threshold);
+  
+    setResults(filtered.slice(0, allProducts ? filtered.length : topK));
+    setPage(1);
   };
+  
+  
 
   const paginatedResults = results.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
   const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
@@ -97,23 +121,50 @@ const SearchBox = () => {
               title="Write what you want to search"
             />
             <div className="upload-container">
-              <label className="upload-btn">
-                {image ? (
-                  <span className="file-ext">{'.' + image.name.split('.').pop()}</span>
-                ) : (
-                  "📷"
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImage(e.target.files[0])}
-                  hidden
-                />
-              </label>
-              {image && (
-                <button className="clear-image-btn" onClick={clearImage} title="Remove image">
-                  <FaTimes />
-                </button>
+              {showLinkInput ? (
+                <>
+                  <input
+                    type="text"
+                    className="search-input"
+                    id="search-input-url"
+                    placeholder="Paste image URL here"
+                    value={imageLink}
+                    onChange={(e) => setImageLink(e.target.value)}
+                  />
+                  <button className="clear-image-btn" onClick={() => { setShowLinkInput(false); setImageLink(""); }}>
+                    <FaTimes />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <label className="upload-btn">
+                    {image ? (
+                      <span className="file-ext">{'.' + image.name.split('.').pop()}</span>
+                    ) : (
+                      "📷"
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setImage(e.target.files[0])}
+                      hidden
+                    />
+                  </label>
+                  {image && (
+                    <button className="clear-image-btn" onClick={clearImage} title="Remove image">
+                      <FaTimes />
+                    </button>
+                  )}
+                  {!image && (
+                    <button
+                      className="clear-image-btn"
+                      onClick={() => setShowLinkInput(true)}
+                      title="Use image link instead"
+                    >
+                      🔗
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </div>

@@ -401,6 +401,10 @@ button:hover {
   margin-bottom: 50px;
 }
 
+#search-input-url{
+  border-radius: 0 0 0 0;
+}
+
 
 @media screen and (max-width: 900px) {
 
@@ -442,6 +446,10 @@ button:hover {
       label{
         font-size: 12px;
       }
+    }
+
+    .clear-image-btn{
+      width: 50px;
     }
 
     button{
