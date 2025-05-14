@@ -265,15 +265,15 @@ The working PoC is live on Hugging Face Spaces:
 
 ### Test Case
 
-![Image 1](./Milestone 2/images/test1.png)
+![Image 1](./Milestone%202/images/test1.png)
 
 ---
 
-![Image 2](./Milestone 2/images/test2.png)
+![Image 2](./Milestone%202/images/test2.png)
 
 ---
 
-![Image 3](./Milestone 2/images/test3.png)
+![Image 3](./Milestone%202/images/test3.png)
 
 ---
 
@@ -1176,7 +1176,7 @@ The entire system is modular, automated, and integrates tools like TFX, Feast, a
 
 The following architecture diagram shows the full machine learning system, including all tools and services involved in the pipeline and serving infrastructure:
 
-![Architecture](./Milestone 5/images/ML_architecture.png)
+![Architecture](./Milestone%205/images/ML_architecture.png)
 
 ### Component Descriptions :
 
@@ -1377,7 +1377,7 @@ The backend is hosted via Hugging Face spaces. It is accessible [Here](https://h
 
 - Screenshot Example
 
-![screenshot](./Milestone 5/images/ui.png)
+![screenshot](./Milestone%205/images/ui.png)
 
 ---
 
@@ -1610,8 +1610,8 @@ The system can dynamically select the best model **per user query, based on onli
 
 | Figure                                    | Description                                                    |
 |-------------------------------------------|----------------------------------------------------------------|
-| ![Heatmap](./Milestone 6/explainability_heatmap.png)  | Similarity heatmap between queries and products                |
-| ![TSNE](./Milestone 6/explainability_tsne.png)        | TSNE projection of queries and products in the embedding space |
+| ![Heatmap](./Milestone%206/explainability_heatmap.png)  | Similarity heatmap between queries and products                |
+| ![TSNE](./Milestone%206/explainability_tsne.png)        | TSNE projection of queries and products in the embedding space |
 
 #### Observations:
 
